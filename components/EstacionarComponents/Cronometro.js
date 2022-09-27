@@ -15,39 +15,39 @@ export default function Cronometro() {
 
 
 
-const handleButtonPress = useCallback(() => {
-    if (!isRunning) {
-        const interval = setInterval(() => {
-            setTime((previousTime) => previousTime +1);
-        }, 10);
+    const handleButtonPress = useCallback(() => {
+        if (!isRunning) {
+            const interval = setInterval(() => {
+                setTime((previousTime) => previousTime +1);
+            }, 10);
 
-        timer.current = interval;
-    } else {
-        clearInterval(timer.current);
-    }
-    setRunning((previousState) => !previousState);
-}, [isRunning]);
+            timer.current = interval;
+        } else {
+            clearInterval(timer.current);
+        }
+        setRunning((previousState) => !previousState);
+    }, [isRunning]);
 
-return (
-    <SafeAreaView>
-        <View>
-            <Text
-                style={styles.timer}
+    return (
+        <SafeAreaView>
+            <View>
+                <Text
+                    style={styles.timer}
+                >
+                {displayTime(time)}
+                </Text>
+            </View>
+
+            <View
+                style={styles.button}
             >
-            {displayTime(time)}
-            </Text>
-        </View>
-
-        <View
-            style={styles.button}
-        >
-            <Control
-            isRunning={isRunning}
-            handleButtonPress={handleButtonPress}
-            />
-        </View>
-    </SafeAreaView>
-);
+                <Control
+                isRunning={isRunning}
+                handleButtonPress={handleButtonPress}
+                />
+            </View>
+        </SafeAreaView>
+    );
 
 }
 
@@ -63,6 +63,6 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: 'center'
-      },
+    },
   
 });

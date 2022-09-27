@@ -69,7 +69,7 @@ function MyTabs() {
                     },
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons 
-                            name="car" 
+                            name="car-clock" 
                             color={color} 
                             size={size}
                         />

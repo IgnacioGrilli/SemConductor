@@ -9,16 +9,9 @@ const HomeScreen = () => {
     return(
         <View style={styles.title}>
             <Text style={styles.title}>
-                Página de inicio
+                Bienvenido al SEM Usuario!
             </Text>
         <View>
-            <Button
-                title = "Ir a stack"
-                color='orange'
-                alignItems='center'
-                justifyContent='bottom'
-                onPress = {() => navigation.navigate("StackScreen")}
-            />
         </View>
         </View>
     );
