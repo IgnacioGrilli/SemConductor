@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomeScreen from "./screens/HomeScreen";
 import EstacionamientoScreen from "./screens/EstacionamientoScreen";
 import StackScreen from "./screens/StackScreen";
+import PagoScreen from './screens/PagoScreen';
 
 const HomeStackNavigator = createNativeStackNavigator();
 
@@ -70,6 +71,25 @@ function MyTabs() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons 
                             name="car" 
+                            color={color} 
+                            size={size}
+                        />
+                    )
+                }}
+            />
+            <Tab.Screen 
+                name="Pago" 
+                component={PagoScreen} 
+                options= {{
+                    headerShown: false,
+                    tabBarLabelStyle: {
+                        fontSize: 11,
+                        marginBottom: 8,
+                        marginTop: -8
+                    },
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons 
+                            name="account-cash" 
                             color={color} 
                             size={size}
                         />
