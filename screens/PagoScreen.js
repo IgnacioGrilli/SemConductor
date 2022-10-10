@@ -1,15 +1,14 @@
 import React from 'react';
 import { View, StyleSheet,Button } from 'react-native';
+import MPScreen from './mpInicioScreen';
 
 const PagoScreen = () => {
 
     return (
         <View style={styles.container} >
-            <mpScreen/>
+            <MPScreen/>
         </View>
     );
-
-
 
 }
 

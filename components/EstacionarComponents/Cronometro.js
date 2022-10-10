@@ -15,7 +15,7 @@ export default function Cronometro() {
 
 
 
-const handleButtonPress = useCallback(() => {
+    const handleButtonPress = useCallback(() => {
     if (!isRunning) {
         const interval = setInterval(() => {
             setTime((previousTime) => previousTime +1);

@@ -6,9 +6,7 @@ import MercadoPagoCheckout from '@blackbox-vision/react-native-mercadopago-px';
 
 import * as MercadoPagoService from './mercadopago-service';
 
-import styles from './styles';
-
-export default function mpScreen() {
+export default function MPScreen() {
   const [paymentResult, setPaymentResult] = useState(null);
 
   const startCheckout = async () => {
@@ -34,10 +32,28 @@ export default function mpScreen() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={startCheckout}>
-        <Text style={styles.text}>Start Payment</Text>
+      <TouchableOpacity 
+        style={styles.container}
+        onPress={startCheckout}>
+        <Text>Start Payment</Text>
       </TouchableOpacity>
       <Text style={styles.text}>Payment: {JSON.stringify(paymentResult)}</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  
+  container: {
+    fontSize: 90,
+    marginTop: 130,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  text: {
+    alignItems: 'center',
+    justifyContent: 'center'
+    },
+
+});
