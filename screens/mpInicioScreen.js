@@ -16,11 +16,11 @@ export default function MPScreen() {
         description: 'Dummy Item Description',
         quantity: 1,
         currency_id: 'ARS',
-        unit_price: 100.0,
+        unit_price: 10.0,
       });
 
       const payment = await MercadoPagoCheckout.createPayment({
-        publicKey: 'APP_USR-360de2fc-0b1e-4046-a5b3-6c53be74b083',
+        publicKey:Env.MP_PUBLIC_KEY,
         preferenceId,
       });
 
