@@ -11,8 +11,13 @@ const HomeScreen = () => {
             <Text style={styles.title}>
                 Bienvenido al SEM Usuario!
             </Text>
-        <View>
-        </View>
+            <Button
+                title = "Carga de patente"
+                color='orange'
+                alignItems='center'
+                justifyContent='bottom'
+                onPress = {() => navigation.navigate("StackScreen")}
+            />
         </View>
     );
 
