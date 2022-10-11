@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Alert, Button, Linking, StyleSheet, View } from "react-native";
+import { Alert, Button, Linking, StyleSheet, View, SafeAreaView } from "react-native";
 
 //100
 const supportedURL = "https://sandbox.mercadopago.com.ar/checkout/v1/redirect/b9a1ea67-8637-4f2b-9122-0bdf8832fdec/payment-option-form/?preference-id=558712817-e6ea0b12-fe4b-4f89-b454-678d1c75ed99&p=809642373e6db13387e5febfdb30727a#/";
@@ -34,35 +34,38 @@ const OpenURLButton = ({ url, children }) => {
 
 const ButtonMP = () => {
     return (
-        <View style={styles.container}>
-            <OpenURLButton url={supportedURL}>Comprar Saldo: $100</OpenURLButton>
-            <OpenURLButton url={supportedURL500}>Comprar Saldo: $500</OpenURLButton>
-            <OpenURLButton url={supportedURL1000}>Comprar Saldo: $1000</OpenURLButton>
-            <OpenURLButton url={supportedURL5000}>Comprar Saldo: $5000</OpenURLButton>
-            <OpenURLButton url={unsupportedURL}>Open Unsupported URL</OpenURLButton>
-        </View>
+        <SafeAreaView style={{marginTop:55}}>
+            <View style={styles.botton}>
+                <OpenURLButton url={supportedURL}>Comprar Saldo: $100</OpenURLButton>
+            </View>
+            <View style={styles.botton}>
+                <OpenURLButton url={supportedURL500}>Comprar Saldo: $500</OpenURLButton>
+            </View>
+            <View style={styles.botton}>
+                <OpenURLButton url={supportedURL1000}>Comprar Saldo: $1000</OpenURLButton>
+            </View>
+            <View style={styles.botton}>
+                <OpenURLButton url={supportedURL5000}>Comprar Saldo: $5000</OpenURLButton>
+            </View>
+            <View style={styles.botton}>
+                <OpenURLButton url={unsupportedURL}>Open Unsupported URL</OpenURLButton>
+            </View>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: "center", alignItems: "center" },
+    container: { 
+        flex: 1, 
+        marginTop: 25,
+        justifyContent: "center", 
+        alignItems: "center" 
+    },
+
     botton: {
-        flex: 1,
+        padding: 15,
         alignItems: "center",
         justifyContent: "center",
-        marginHorizontal: 50,
-        marginVertical: 10,
-        borderColor: "#4630eb",
-        borderRadius: 10,
-        borderWidth: 2,
-        borderBottomWidth: 5,
-        fontSize: 8,
-        fontWeight: "bold",
-        textAlign: "center",
-        height: 50,
-        margin: 5,
-        padding: 4
-
     }
 });
 

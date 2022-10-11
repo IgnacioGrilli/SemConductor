@@ -109,7 +109,7 @@ function MyTabs() {
                     },
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons 
-                            name="profile" 
+                            name="contacts" 
                             color={color} 
                             size={size}
                         />
