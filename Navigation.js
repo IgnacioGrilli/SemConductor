@@ -7,7 +7,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomeScreen from "./screens/HomeScreen";
 import EstacionamientoScreen from "./screens/EstacionamientoScreen";
 import StackScreen from "./screens/StackScreen";
-import PagoScreen from './screens/PagoScreen';
+import ButtonMP from './screens/UrlEjemplo';
+import CuentaScrenn from './screens/CuentaScrenn';
 
 const HomeStackNavigator = createNativeStackNavigator();
 
@@ -79,7 +80,7 @@ function MyTabs() {
             />
             <Tab.Screen 
                 name="Pago" 
-                component={PagoScreen} 
+                component={ButtonMP} 
                 options= {{
                     headerShown: false,
                     tabBarLabelStyle: {
@@ -96,6 +97,27 @@ function MyTabs() {
                     )
                 }}
             />
+            <Tab.Screen 
+                name="Cuenta" 
+                component={CuentaScrenn} 
+                options= {{
+                    headerShown: false,
+                    tabBarLabelStyle: {
+                        fontSize: 11,
+                        marginBottom: 8,
+                        marginTop: -8
+                    },
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons 
+                            name="profile" 
+                            color={color} 
+                            size={size}
+                        />
+                    )
+                }}
+            />
+            
+        
         </Tab.Navigator>
     )
 }

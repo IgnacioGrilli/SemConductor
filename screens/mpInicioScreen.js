@@ -1,4 +1,4 @@
-import Env from 'react-native-config';
+/* import Env from 'react-native-config';
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
 
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
     },
 
-});
+}); */
