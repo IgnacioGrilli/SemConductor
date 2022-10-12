@@ -18,11 +18,11 @@ function MyStack() {
             initialRouteName="Home"
         >
             <HomeStackNavigator.Screen
-                name="HomeScreen"
+                name="Inicio"
                 component={HomeScreen}
             />
             <HomeStackNavigator.Screen
-                name="StackScreen"
+                name="Stack"
                 component={StackScreen}
             />
         </HomeStackNavigator.Navigator>

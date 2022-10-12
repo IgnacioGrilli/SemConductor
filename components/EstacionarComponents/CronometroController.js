@@ -14,7 +14,8 @@ function Control({ isRunning, handleButtonPress }) {
             onPress = {handleButtonPress}
         >
             <View 
-            style={styles.controlButton}>
+            style={styles.controlButton}
+            >
                 <Text
                 style={{ color: '#fff' }}
                 >

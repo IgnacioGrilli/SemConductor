@@ -11,15 +11,6 @@ const HomeScreen = () => {
             <Text style={styles.title}>
                 Página de inicio
             </Text>
-        <View>
-            <Button
-                title = "Ir a stack"
-                color='orange'
-                alignItems='center'
-                justifyContent='bottom'
-                onPress = {() => navigation.navigate("StackScreen")}
-            />
-        </View>
         </View>
     );
 
