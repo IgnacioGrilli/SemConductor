@@ -16,10 +16,10 @@ export default function Cronometro() {
 
 
     const handleButtonPress = useCallback(() => {
-        if (!isRunning) {
-            const interval = setInterval(() => {
-                setTime((previousTime) => previousTime +1);
-            }, 10);
+    if (!isRunning) {
+        const interval = setInterval(() => {
+            setTime((previousTime) => previousTime +1);
+        }, 10);
 
             timer.current = interval;
         } else {

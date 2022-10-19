@@ -7,6 +7,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomeScreen from "./screens/HomeScreen";
 import EstacionamientoScreen from "./screens/EstacionamientoScreen";
 import StackScreen from "./screens/StackScreen";
+import ButtonMP from './screens/UrlEjemplo';
+import CuentaScrenn from './screens/CuentaScrenn';
 
 const HomeStackNavigator = createNativeStackNavigator();
 
@@ -16,11 +18,11 @@ function MyStack() {
             initialRouteName="Home"
         >
             <HomeStackNavigator.Screen
-                name="HomeScreen"
+                name="Inicio"
                 component={HomeScreen}
             />
             <HomeStackNavigator.Screen
-                name="StackScreen"
+                name="Stack"
                 component={StackScreen}
             />
         </HomeStackNavigator.Navigator>
@@ -76,6 +78,46 @@ function MyTabs() {
                     )
                 }}
             />
+            <Tab.Screen 
+                name="Pago" 
+                component={ButtonMP} 
+                options= {{
+                    headerShown: false,
+                    tabBarLabelStyle: {
+                        fontSize: 11,
+                        marginBottom: 8,
+                        marginTop: -8
+                    },
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons 
+                            name="account-cash" 
+                            color={color} 
+                            size={size}
+                        />
+                    )
+                }}
+            />
+            <Tab.Screen 
+                name="Cuenta" 
+                component={CuentaScrenn} 
+                options= {{
+                    headerShown: false,
+                    tabBarLabelStyle: {
+                        fontSize: 11,
+                        marginBottom: 8,
+                        marginTop: -8
+                    },
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons 
+                            name="contacts" 
+                            color={color} 
+                            size={size}
+                        />
+                    )
+                }}
+            />
+            
+        
         </Tab.Navigator>
     )
 }
