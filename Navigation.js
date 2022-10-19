@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomeScreen from "./screens/HomeScreen";
 import EstacionamientoScreen from "./screens/EstacionamientoScreen";
 import StackScreen from "./screens/StackScreen";
-import ButtonMP from './screens/UrlEjemplo';
+import ButtonMP from './components/MercadoPagoComponents/UrlEjemplo';
 import CuentaScrenn from './screens/CuentaScrenn';
 
 const HomeStackNavigator = createNativeStackNavigator();

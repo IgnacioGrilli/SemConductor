@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Alert, Button, Linking, StyleSheet, View, SafeAreaView } from "react-native";
+import { Alert, Text, TouchableOpacity, Linking, StyleSheet, View, SafeAreaView } from "react-native";
 
 //100
 const supportedURL = "https://sandbox.mercadopago.com.ar/checkout/v1/redirect/b9a1ea67-8637-4f2b-9122-0bdf8832fdec/payment-option-form/?preference-id=558712817-e6ea0b12-fe4b-4f89-b454-678d1c75ed99&p=809642373e6db13387e5febfdb30727a#/";
@@ -12,6 +12,8 @@ const supportedURL1000 = "https://sandbox.mercadopago.com.ar/checkout/v1/redirec
 const supportedURL5000 = "https://sandbox.mercadopago.com.ar/checkout/v1/redirect/15705977-0c05-46fe-a497-ff1bf6c62566/payment-option-form/?preference-id=558712817-0cde0fad-f7a5-4406-a13c-3f0bfefc14ca&p=809642373e6db13387e5febfdb30727a#/";
 
 const unsupportedURL = "slack://open?team=123456";
+//<OpenURLButton url={unsupportedURL}>Open Unsupported URL</OpenURLButton>
+
 
 const OpenURLButton = ({ url, children }) => {
     const handlePress = useCallback(async () => {
@@ -29,44 +31,63 @@ const OpenURLButton = ({ url, children }) => {
         }
     }, [url]);
 
-    return <Button title={children} onPress={handlePress}/>;
+    return <TouchableOpacity 
+                title={children} 
+                onPress={handlePress}
+                style={styles.button}
+            >
+                <View>
+                    <Text
+                        style={styles.buttonText}
+                    >
+                        {children}
+                    </Text>
+                </View>
+            </TouchableOpacity>;
 };
 
 const ButtonMP = () => {
     return (
-        <SafeAreaView style={{marginTop:55}}>
-            <View style={styles.botton}>
-                <OpenURLButton url={supportedURL}>Comprar Saldo: $100</OpenURLButton>
-            </View>
-            <View style={styles.botton}>
-                <OpenURLButton url={supportedURL500}>Comprar Saldo: $500</OpenURLButton>
-            </View>
-            <View style={styles.botton}>
-                <OpenURLButton url={supportedURL1000}>Comprar Saldo: $1000</OpenURLButton>
-            </View>
-            <View style={styles.botton}>
-                <OpenURLButton url={supportedURL5000}>Comprar Saldo: $5000</OpenURLButton>
-            </View>
-            <View style={styles.botton}>
-                <OpenURLButton url={unsupportedURL}>Open Unsupported URL</OpenURLButton>
-            </View>
+        <SafeAreaView style={styles.container}>
+
+            <Text
+            style={styles.buttonText}
+            >
+                COMPRA DE SALDO
+            </Text>
+               
+            <OpenURLButton url={supportedURL}>$100</OpenURLButton>
+        
+            <OpenURLButton url={supportedURL500}>$500</OpenURLButton>
+            
+            <OpenURLButton url={supportedURL1000}>$1000</OpenURLButton>
+            
+            <OpenURLButton url={supportedURL5000}>$5000</OpenURLButton>
+                        
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: { 
-        flex: 1, 
-        marginTop: 25,
+    container: {
+        marginTop: 160,
         justifyContent: "center", 
         alignItems: "center" 
     },
 
-    botton: {
-        padding: 15,
-        alignItems: "center",
-        justifyContent: "center",
-    }
+    button: {
+        height: 60,
+        width: 150,
+        marginTop: 30,
+        borderRadius: 15,
+        backgroundColor: 'orange',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    buttonText: {
+        fontSize: 28,
+    },
 });
 
 
