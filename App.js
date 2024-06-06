@@ -1,62 +1,50 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {Component} from 'react';
-import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
-import Icon from 'react-native-ico-material-design';
+// App.js
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Navigation from './Navigation';
+import LoginScreen from './screens/LoginScreen';
+import TabNavigation from './Navigation'; // Asegúrate de que esta importación sea correcta
+import DeepLinkHandler from './screens/DeepLinkHandler'; // Asegúrate de que esta importación es correcta
+import { SafeAreaView, StyleSheet,ImageBackground } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
-export default class App extends React.Component { 
+export default function App() {
+  const linking = {
+    prefixes: ['https://www.myapp.com', 'myapp://'],
+    config: {
+      screens: {
+        Login: 'Login',
+        Home: 'Home',
+      },
+    },
+  };
 
-/*
-  getJsonData = () => {
-    fetch('http://if012app.fi.mdn.unp.edu.ar:28001/patentes/all',
-    {method: 'GET'}).then((response) => response.json())
-    .then((responseJson) => {
-      // console.log(responseJson);
-      this.setState({
-        data: responseJson
-      })
-    })
-    .catch((error) => {
-      console.error(error)
-    });
-  }
-*/
-
-  render () {
-    return (
-      <Navigation />
-    );
-  }
-
+  return (
+      <ImageBackground
+          source={require('./assets/background.jpg')} // Reemplaza con la ruta correcta a tu imagen de fondo
+          style={styles.background}
+      >
+        <SafeAreaView style={styles.container}>
+          <NavigationContainer linking={linking}>
+            <DeepLinkHandler>
+              <Stack.Navigator initialRouteName="Login">
+                <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Home" component={TabNavigation} options={{ headerShown: false }} />
+              </Stack.Navigator>
+            </DeepLinkHandler>
+          </NavigationContainer>
+        </SafeAreaView>
+      </ImageBackground>
+  );
 }
 
 const styles = StyleSheet.create({
-  
-  container: {
-    margin:1,
+  background: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
+    resizeMode: 'cover', // Asegura que la imagen cubra todo el fondo
   },
-
-  text: {
-    color: "#00d",
-    fontSize: 30,
-    padding: 20
+  container: {
+    flex: 1,
   },
-
-  button: {
-    borderRadius: 10,
-    backgroundColor: "#30b6e6",
-    width: 150,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-
 });

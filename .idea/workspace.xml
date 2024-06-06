@@ -4,11 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14c5e0dc-f016-457b-8771-3aebe00b0ef2" name="Changes" comment="Cronometro checkea saldo. Hardcodeado" />
+    <list default="true" id="14c5e0dc-f016-457b-8771-3aebe00b0ef2" name="Changes" comment="Cronometro checkea saldo. Hardcodeado">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -24,12 +33,12 @@
     &quot;assignee&quot;: &quot;davdenis&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/davdenis/semFront.git&quot;,
-    &quot;accountId&quot;: &quot;38ea795b-86df-445f-b928-df026478dad0&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:davdenis/semFront.git",
+    "accountId": "38ea795b-86df-445f-b928-df026478dad0"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -45,7 +54,7 @@
     "Node.js.Cronometro.js.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/denis/ideal-projects/semFront",
+    "last_opened_file_path": "/home/denis/ideal-projects/semFront/assets",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -56,6 +65,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="semFront" />
@@ -94,6 +108,7 @@
       <workItem from="1714976926305" duration="43000" />
       <workItem from="1715127326470" duration="3377000" />
       <workItem from="1715892109723" duration="385000" />
+      <workItem from="1717645209168" duration="1187000" />
     </task>
     <task id="LOCAL-00001" summary="Actualización de versiones package.">
       <option name="closed" value="true" />
