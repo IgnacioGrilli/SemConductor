@@ -6,16 +6,21 @@ import LoginScreen from './screens/LoginScreen';
 import TabNavigation from './Navigation'; // Asegúrate de que esta importación sea correcta
 import DeepLinkHandler from './screens/DeepLinkHandler'; // Asegúrate de que esta importación es correcta
 import { SafeAreaView, StyleSheet,ImageBackground } from 'react-native';
+import StackScreen from "./screens/StackScreen";
+import PaymentScreen from "./screens/PaymentScreen";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const linking = {
-    prefixes: ['https://www.myapp.com', 'myapp://'],
+    prefixes: ['https://exp://192.168.1.20:8081', 'exp://192.168.1.20:8081'],
     config: {
       screens: {
         Login: 'Login',
         Home: 'Home',
+        Stack: 'Stack',
+        PaymentScreen: 'PaymentScreen'
+        //agregar la pantalla stackScreen reemplzaar por la del home
       },
     },
   };
@@ -31,6 +36,8 @@ export default function App() {
               <Stack.Navigator initialRouteName="Login">
                 <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="Home" component={TabNavigation} options={{ headerShown: false }} />
+                <Stack.Screen name="Stack" component={StackScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{ headerShown: false }} />
               </Stack.Navigator>
             </DeepLinkHandler>
           </NavigationContainer>

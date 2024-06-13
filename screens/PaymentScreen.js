@@ -1,88 +1,111 @@
-import { handleIntegrationMP, getPaymentStatusById  } from './PaymentScreenWebBrowser';
-import React, { useState, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
+import { Alert, Button, SafeAreaView, StyleSheet, Text, TextInput, View,ImageBackground } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { openBrowserAsync } from 'expo-web-browser';
-import { View, Text, Button, Alert } from 'react-native';
+import { getPaymentStatusById, handleIntegrationMP } from './PaymentScreenWebBrowser';
 
-/* PRUEBAA */
 export default function PaymentScreen() {
     const [paymentLink, setPaymentLink] = useState('');
     const [paymentId, setPaymentId] = useState('');
     const [error, setError] = useState(null);
+    const [quantity, setQuantity] = useState(1); // Estado para la cantidad de hrs
+    const [showWebView, setShowWebView] = useState(false); // Estado para mostrar el WebView
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const { init_point, paymentId } = await handleIntegrationMP();
-                // const init_point = await handleIntegrationMP();
-                setPaymentLink(init_point);
-                setPaymentId(paymentId);
-                // checkPaymentStatus();
-            } catch (error) {
-                setError(error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    const checkPaymentStatus = async () => {
+    const fetchData = useCallback(async () => {
         try {
-            if (paymentLink && paymentId) {
-                const status = await getPaymentStatusById(paymentId);
-                handlePaymentStatus(status);
-                console.log('entra',status)
-            }
+            const { init_point, paymentId } = await handleIntegrationMP(quantity);
+            setPaymentLink(init_point);
+            setPaymentId(paymentId);
         } catch (error) {
-            console.error('Error al verificar el estado del pago:', error);
+            setError(error);
         }
-    };
+    }, [quantity]);
 
-    /*  useEffect(() => {
-       const interval = setInterval(() => {
-         checkPaymentStatus();
-       }, 5000);
+    useFocusEffect(
+        useCallback(() => {
+            setShowWebView(false); //sale del webview
+            setError(null); // Restablece el estado de error
+            fetchData();
+        }, [fetchData])
+    );
 
-       return () => clearInterval(interval);
-     }, [paymentLink]);   */
-
-    const handlePaymentStatus = (status) => {
-        if (status === 'approved') {
-            // Realiza acciones adicionales cuando el pago es aprobado
-        } else if (status === 'pending') {
-            // Decide cómo manejar un pago pendiente
-        } else if (status === 'in_process') {
-            // Decide cómo manejar un pago en proceso
-        } else if (status === 'rejected') {
-            // Decide cómo manejar un pago rechazado
-        } else {
-            console.log('entra 2 ');
-            // Maneja otros estados de pago según sea necesario
-        }
-    };
-
-    if (paymentLink) {
-        console.log("ppayment link", paymentLink)
-        return <WebView source={{ uri: paymentLink }} />;
+    if (showWebView && paymentLink) {
+        console.log("payment link", paymentLink);
+        return (
+            <SafeAreaView style={styles.webViewContainer}>
+                <WebView source={{ uri: paymentLink }} />
+            </SafeAreaView>
+        );
     }
 
     return (
-        <View>
-            <Text>Cargando...</Text>
-            {error && <Text>Error: {error.message}</Text>}
-            <Button
-                title="Abrir en el navegador"
-                onPress={async () => {
-                    const supported = await openBrowserAsync(paymentLink);
-                    //  <WebView source={{ uri: paymentLink }} />;
-
-                    if (!supported) {
-                        console.error('No se pudo abrir el enlace en el navegador externo.');
-                    }
-                }}
-            />
-        </View>
+        <ImageBackground
+            source={require('../assets/background.jpg')}
+            style={styles.background}
+        >
+            <SafeAreaView style={styles.container}>
+                <View style={styles.content}>
+                    <Text style={styles.label}>Ingrese la cantidad de Horas valor de la hora 0,05:</Text>
+                    <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        onChangeText={text => setQuantity(Number(text))}
+                        value={String(quantity)}
+                    />
+                    <View style={styles.buttonContainer}>
+                        <Button
+                            title="Pagar con Mercado Pago"
+                            onPress={() => {
+                                if (paymentLink) {
+                                    setShowWebView(true);
+                                } else {
+                                    Alert.alert('Error', 'No hay enlace de pago disponible');
+                                }
+                            }}
+                        />
+                    </View>
+                    {error && <Text style={styles.errorText}>Error: {error.message}</Text>}
+                </View>
+            </SafeAreaView>
+        </ImageBackground>
     );
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
 
+    },
+    background: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center"
+    },
+    content: {
+        flex: 1,
+        padding: 16,
+        justifyContent: 'center',
+    },
+    label: {
+        fontSize: 16,
+        marginBottom: 8,
+    },
+    input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderRadius: 4,
+        paddingHorizontal: 8,
+        marginBottom: 16,
+    },
+    buttonContainer: {
+        marginBottom: 16,
+    },
+    errorText: {
+        color: 'red',
+    },
+    webViewContainer: {
+        flex: 1,
+        marginTop: 40
+    },
+});

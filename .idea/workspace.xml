@@ -4,8 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14c5e0dc-f016-457b-8771-3aebe00b0ef2" name="Changes" comment="Cronometro checkea saldo. Hardcodeado">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="14c5e0dc-f016-457b-8771-3aebe00b0ef2" name="Changes" comment="Mercado Pago actualizdo">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/AccountMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/AccountMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/DeepLinkHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/DeepLinkHandler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/PaymentScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/PaymentScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/PaymentScreenWebBrowser.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/PaymentScreenWebBrowser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/StackScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/StackScreen.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,12 +43,15 @@
     &quot;assignee&quot;: &quot;davdenis&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:davdenis/semFront.git",
-    "accountId": "38ea795b-86df-445f-b928-df026478dad0"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:davdenis/semFront.git&quot;,
+    &quot;accountId&quot;: &quot;38ea795b-86df-445f-b928-df026478dad0&quot;
   }
-}]]></component>
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -53,6 +66,7 @@
     "Node.js.App.js.executor": "Run",
     "Node.js.Cronometro.js.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/denis/ideal-projects/semFront/assets",
     "node.js.detected.package.eslint": "true",
@@ -108,7 +122,8 @@
       <workItem from="1714976926305" duration="43000" />
       <workItem from="1715127326470" duration="3377000" />
       <workItem from="1715892109723" duration="385000" />
-      <workItem from="1717645209168" duration="1187000" />
+      <workItem from="1717645209168" duration="2983000" />
+      <workItem from="1718238122695" duration="3063000" />
     </task>
     <task id="LOCAL-00001" summary="Actualización de versiones package.">
       <option name="closed" value="true" />
@@ -156,10 +171,22 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Actualización de versiones package." />
     <MESSAGE value="Actualización Home. Comportamiento botón estacionamiento." />
     <MESSAGE value="Cronometro checkea saldo. Hardcodeado" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cronometro checkea saldo. Hardcodeado" />
+    <MESSAGE value="Mercado Pago actualizdo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mercado Pago actualizdo" />
   </component>
 </project>

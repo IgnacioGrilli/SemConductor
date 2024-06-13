@@ -14,13 +14,38 @@ const AccountMenu = () => {
     useEffect(() => {
         const obtenerUsuarioActual = async () => {
             const usuarioActual = auth.currentUser;
+            // console.log('mail dentro del acount menu',usuarioActual.email);
             if (usuarioActual) {
                 setUserId(usuarioActual.email);
             }
         };
 
         obtenerUsuarioActual();
+        //  console.log('user fuera',userId);
     }, []);
+
+    useEffect(() => {
+        const obtenerPatentes = async () => {
+            try {
+                const response = await fetch(`http://if012app.fi.mdn.unp.edu.ar:28001/conductorPatente/patUsuario/${userId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setPatentes(data);
+                    if (data.length > 0) {
+                        setPatenteSeleccionada(data[0].numero); // Seleccionar la primera patente por defecto
+                    }
+                } else {
+                    console.error('Error al obtener las patentes:', response.status);
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+            }
+        };
+
+        if (userId) {
+            obtenerPatentes();
+        }
+    }, [userId]);
 
     useEffect(() => {
         const obtenerTransacciones = async () => {
@@ -64,26 +89,7 @@ const AccountMenu = () => {
         }
     }, [patenteSeleccionada]);
 
-    useEffect(() => {
-        const obtenerPatentes = async () => {
-            try {
-                const response = await fetch(`http://if012app.fi.mdn.unp.edu.ar:28001/conductorPatente/patUsuario/${userId}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setPatentes(data);
-                    if (data.length > 0) {
-                        setPatenteSeleccionada(data[0]); // Seleccionar la primera patente por defecto
-                    }
-                } else {
-                    console.error('Error al obtener las patentes:', response.status);
-                }
-            } catch (error) {
-                console.error('Error de red:', error);
-            }
-        };
 
-        obtenerPatentes();
-    }, [userId]);
 
     const handleLogout = () => {
         // Implementa aquí la lógica para cerrar sesión

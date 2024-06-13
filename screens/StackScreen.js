@@ -1,12 +1,9 @@
-
-import React, { useEffect,useState } from 'react';
-//import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { View, Text, StyleSheet, SafeAreaView, TextInput, ImageBackground } from 'react-native';
 import { auth } from '../configFirebase';
 
 const StackScreen = () => {
-
     const [patente, setPatente] = useState("");
     const [saldo, setSaldo] = useState('');
     const [userId, setUserId] = useState('');
@@ -18,17 +15,17 @@ const StackScreen = () => {
                 setUserId(usuarioActual.email);
             }
         };
-        console.log('entroo');
-        console.log(userId);
         obtenerUsuarioActual();
     }, []);
 
     useEffect(() => {
         const obtenerSaldo = async () => {
+            if (!userId) return; // Asegura que el userId esté disponible antes de hacer la solicitud
             try {
+                console.log('cargo nuevamente el saldo');
                 const response = await fetch(`http://if012app.fi.mdn.unp.edu.ar:28001/conductor/saldo/${userId}`);
                 if (response.ok) {
-                    const data = await response.json();
+                    const data = await response.json(); // Analizar la respuesta como JSON
                     setSaldo(data);
                 } else {
                     console.error('Error al obtener las transacciones:', response.status);
@@ -36,29 +33,10 @@ const StackScreen = () => {
             } catch (error) {
                 console.error('Error de red:', error);
             }
+        };
 
-        }
-        obtenerSaldo();
-    }, [userId,saldo]);
-
-    /*   useEffect(() => {
-          const obtenerSaldo = async () => {
-            try {
-              const response = await fetch('http://if012app.fi.mdn.unp.edu.ar:28001/conductor/saldo/b@gmail.com');
-              if (response.ok) {
-                const data = await response.json();
-                setSaldo(data);
-              } else {
-                console.error('Error al obtener las transacciones:', response.status);
-              }
-            } catch (error) {
-              console.error('Error de red:', error);
-            }
-
-          }
-          obtenerSaldo();
-          }, []);
-*/
+        obtenerSaldo(); // Obtener saldo cada vez que el componente se renderiza
+    });
 
     const validateNumero = (patente) => {
         var reg = /([A-Z]{3}[0-9]{3})|([A-Z]{2}[0-9]{3}[A-Z]{2})/;
@@ -93,10 +71,6 @@ const StackScreen = () => {
         }
     };
 
-
-
-
-
     return (
         <ImageBackground
             source={require('../assets/background.jpg')} // Asegúrate de que la ruta de la imagen sea correcta
@@ -108,12 +82,11 @@ const StackScreen = () => {
                         Carga manual de patentes
                     </Text>
                     <Text style={styles.saldoDispo}>
-                        Disponible
+                        Saldo Disponible:
                     </Text>
                     <Text style={styles.saldo}>
-                        {saldo}
+                        {saldo}$
                     </Text>
-
                 </View>
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -150,6 +123,16 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 30,
+        color: '#000',
+        textAlign: 'center',
+    },
+    saldoDispo: {
+        fontSize: 20,
+        color: '#000',
+        textAlign: 'center',
+    },
+    saldo: {
+        fontSize: 25,
         color: '#000',
         textAlign: 'center',
     },
