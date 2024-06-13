@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import moment from "moment";
+import { Picker } from '@react-native-picker/picker';
 import { auth } from '../../configFirebase';
 
 function Control({ isRunning, handleButtonPress }) {
@@ -8,18 +9,42 @@ function Control({ isRunning, handleButtonPress }) {
     const [saldo, setSaldo] = useState();
     const [disabled, setDisabled] = useState(false);
     const [userId, setUserId] = useState('');
+    const [patentes, setPatentes] = useState([]);
+    const [patenteSeleccionada, setPatenteSeleccionada] = useState('');
 
     useEffect(() => {
         const obtenerUsuarioActual = async () => {
             const usuarioActual = auth.currentUser;
             if (usuarioActual) {
                 setUserId(usuarioActual.email);
+                console.log("Usuario actual: ",usuarioActual);
             }
         };
-        console.log('entroo');
-        console.log(userId);
         obtenerUsuarioActual();
     }, []);
+
+    useEffect(() => {
+        const obtenerPatentes = async () => {
+            try {
+                const response = await fetch(`http://if012app.fi.mdn.unp.edu.ar:28001/conductorPatente/patUsuario/${userId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setPatentes(data);
+                    if (data.length > 0) {
+                        setPatenteSeleccionada(data[0].numero); // Seleccionar la primera patente por defecto
+                        console.log("Patentes: ", data);
+                    }
+                } else {
+                    console.error('Error al obtener las patentes:', response.status);
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+            }
+        };
+        if (userId) {
+            obtenerPatentes();
+        }
+    }, [userId]);
 
     useEffect(() => {
         const obtenerSaldo = async () => {
@@ -39,12 +64,6 @@ function Control({ isRunning, handleButtonPress }) {
         obtenerSaldo();
     }, [userId,saldo]);
 
-
-    function f() {
-        checkSaldo();
-        checkHorario();
-        //console.log("Saldo insuficiente.")
-    }
     function checkSaldo() {
         if (saldo < 0) {
             setDisabled(true);
@@ -77,6 +96,11 @@ function Control({ isRunning, handleButtonPress }) {
             });
     }
 
+    function f() {
+        checkSaldo();
+        checkHorario();
+    }
+
     useEffect(() => {
         f();
     });
@@ -84,6 +108,17 @@ function Control({ isRunning, handleButtonPress }) {
 
     return(
         <View>
+            <View style={styles.pickerContainer}>
+                <Picker
+                    selectedValue={patenteSeleccionada}
+                    style={styles.picker}
+                    onValueChange={(itemValue) => setPatenteSeleccionada(itemValue)}
+                >
+                    {patentes.map((patente) => (
+                        <Picker.Item key={patente.numero} label={patente.numero} value={patente.numero} />
+                    ))}
+                </Picker>
+            </View>
             <TouchableOpacity
                 activeOpacity={disabled ? 1 : 0.1}
                 style={disabled ? [
@@ -116,7 +151,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: 70,
         height: 70,
-        borderRadius: 70
+        borderRadius: 70,
+        marginLeft: 30,
+        marginBottom: 20
     },
     controlButtonBorderDisabled: {
         justifyContent: 'center',
@@ -124,7 +161,9 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         borderRadius: 70,
-        opacity: 0.5
+        opacity: 0.5,
+        marginLeft: 30,
+        marginBottom: 20
     },
     controlButton: {
         justifyContent: 'center',
@@ -139,6 +178,21 @@ const styles = StyleSheet.create({
         height: 100,
         justifyContent:'center',
         alignItems:'center'
-    }
+    },
+    pickerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 70,
+        width: 150,
+        marginBottom: 10,
+
+    },
+    pickerLabel: {
+        marginRight: 10,
+    },
+    picker: {
+        height: 50,
+        flex: 1,
+    },
 });
 export default React.memo(Control);

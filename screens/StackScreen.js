@@ -61,6 +61,9 @@ const StackScreen = () => {
                 console.log('Success:', data);
             });
     };
+    postPatenteUsuario = (patente) => {
+
+    }
 
     const handleSubmit = () => {
         if (!validateNumero(patente)) {
