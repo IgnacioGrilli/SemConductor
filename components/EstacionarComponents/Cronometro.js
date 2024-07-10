@@ -1,7 +1,7 @@
-import React, {useCallback, useRef, useState, useEffect} from 'react';
-import {SafeAreaView, Button, StyleSheet, Text, View} from 'react-native';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
+import { SafeAreaView, Button, StyleSheet, Text, View } from 'react-native';
 import Control from './CronometroController';
-import {displayTime} from './CronometroUtil';
+import { displayTime } from './CronometroUtil';
 import moment from "moment";
 import Mapa from './Mapa';
 import { useFocusEffect } from '@react-navigation/native';
@@ -42,6 +42,31 @@ export default function Cronometro() {
     });
 
 
+    //ENVIA MAIL CON LOS RESULTADOS DEL ESTACIONAMIENTO
+    const sendMail = async ({horaInicio, horaFin, valor, fecha}) => {
+        console.log("mando mail");
+        fecha = moment().format("DD-MM-YYYY");
+        horaInicio = moment().format("HH:mm");
+        await fetch(
+            "http://if012app.fi.mdn.unp.edu.ar:28001/api/email/send",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+
+                    recipients: ["ezequielalb@outlook.com"],
+                    subject: "Su estacionamiento medido ha finalizado",
+                    body: "En el día de la fecha, " + fecha + ", usted estuvo estacionado desde las " + horaInicio+ " hasta las " + horaFin +
+                        ", con un valor total de $"+valor+"."
+
+                }),
+            }
+        )
+            .then((response) => response.json());
+    }
+
     function getPatentesByUser() {
         fetch("http://if012app.fi.mdn.unp.edu.ar:28001/patentes/all", {
             method: "GET",
@@ -62,8 +87,8 @@ export default function Cronometro() {
             });
     }
 
-    const createRegistro = async()=> {
-//        var date = moment().format("YYYY-MM-DD");
+    const createRegistro = async () => {
+        //        var date = moment().format("YYYY-MM-DD");
         var horaInicio = moment().format("HH:mm");
 
         console.log("Id antes de post:", id);
@@ -100,8 +125,7 @@ export default function Cronometro() {
             });
     }
 
-    const updateRegistro = async() => {
-
+    const updateRegistro = async () => {
         setRunning((previousState) => !previousState);
         setTime(0);
         clearInterval(timer.current);
@@ -135,9 +159,27 @@ export default function Cronometro() {
                 console.log("Success PUT:", data);
                 setDate(data.fecha);
                 console.log("Fecha despues de update:", date);
-            });
-    }
 
+                sendMail(data);
+            });
+
+    }
+    /*
+        const handleButtonPress = useCallback(() => {
+        if (!isRunning) {
+
+
+                createRegistro();
+
+            } else {
+
+                updateRegistro;
+            }
+
+
+            setRunning((previousState) => !previousState);
+        }, [isRunning]);
+    */
     function getHorario() {
         fetch("http://if012app.fi.mdn.unp.edu.ar:28001/ValorMinuto/horario", {
             method: "GET",
@@ -159,7 +201,7 @@ export default function Cronometro() {
                 <SafeAreaView>
                     <Text style={styles.menuText}>Horarios: Lunes a Sábado {"\n"}
                         de {hsInicioM}hs a {hsFinM}hs y de {hsInicioT}hs a {hsFinT}hs</Text>
-                    <Mapa/>
+                    <Mapa />
                 </SafeAreaView>
         );
     }
@@ -179,12 +221,13 @@ export default function Cronometro() {
                 <Control
                     isRunning={isRunning}
                     handleButtonPress={isRunning ? updateRegistro : createRegistro}
+                    // prop={user}
                 />
             </View>
             <View style={styles.buttonContainer}>
                 <Button
                     title="Ver zona y horario vigente"
-                    onPress={() => {setShowMap(true)}}
+                    onPress={() => { setShowMap(true) }}
                 />
             </View>
         </SafeAreaView>
@@ -196,8 +239,8 @@ export default function Cronometro() {
 const styles = StyleSheet.create({
 
     timer: {
-        fontSize:60,
-        marginTop:130,
+        fontSize: 60,
+        marginTop: 130,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -214,8 +257,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 120,
-        textAlign:"center",
+        textAlign: "center",
         backgroundColor: 'yellow',
         padding: 8,
+    },/*
+    webViewContainer: {
+        flex: 1,
+        marginTop: 40
     },
+ */
 });
