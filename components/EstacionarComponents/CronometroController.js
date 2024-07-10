@@ -96,14 +96,17 @@ function Control({ isRunning, handleButtonPress }) {
             });
     }
 
-    function f() {
+    const f = () => {
         checkSaldo();
         checkHorario();
-    }
+    };
 
     useEffect(() => {
         f();
-    });
+        const interval = setInterval(f, 60000); // Vuelve a chequear cada minuto
+
+        return () => clearInterval(interval);
+    }, []);
 
 
     return(
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 70,
         width: 150,
-        marginBottom: 10,
+        marginBottom: 5,
 
     },
     pickerLabel: {

@@ -1,10 +1,20 @@
 import React, {useCallback, useRef, useState, useEffect} from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, Button, StyleSheet, Text, View} from 'react-native';
 import Control from './CronometroController';
 import {displayTime} from './CronometroUtil';
 import moment from "moment";
+import Mapa from './Mapa';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Cronometro() {
+
+
+    const [showMap, setShowMap] = useState(false); // mapa con los horarios
+    //manejo de horarios vigentes
+    const [hsInicioM, setHsInicioM] = useState(false);
+    const [hsFinM, setHsFinM] = useState(false);
+    const [hsInicioT, setHsInicioT] = useState(false);
+    const [hsFinT, setHsFinT] = useState(false);
 
     const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
     const [time, setTime] = useState(0);
@@ -22,14 +32,15 @@ export default function Cronometro() {
 
     moment().format();
 
-    /*  let user= {
-         id:1,
-         mail: "a@gmail.com",
-         saldo: 12300
-     } */
+    useFocusEffect(
+        useCallback(() => {
+            setShowMap(false); //sale del mapa
+        }, [])
+    );
 
     useEffect(() => {
     });
+
 
     function getPatentesByUser() {
         fetch("http://if012app.fi.mdn.unp.edu.ar:28001/patentes/all", {
@@ -126,23 +137,32 @@ export default function Cronometro() {
                 console.log("Fecha despues de update:", date);
             });
     }
-    /*
-        const handleButtonPress = useCallback(() => {
-        if (!isRunning) {
 
-
-                createRegistro();
-
-            } else {
-
-                updateRegistro;
-            }
-
-
-            setRunning((previousState) => !previousState);
-        }, [isRunning]);
-    */
-
+    function getHorario() {
+        fetch("http://if012app.fi.mdn.unp.edu.ar:28001/ValorMinuto/horario", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setHsInicioM(data.hsInicioM);
+                setHsFinM(data.hsFinM);
+                setHsInicioT(data.hsInicioT);
+                setHsFinT(data.hsFinT);
+            });
+    }
+    if (showMap) {
+        return (
+            getHorario(),
+                <SafeAreaView>
+                    <Text style={styles.menuText}>Horarios: Lunes a Sábado {"\n"}
+                        de {hsInicioM}hs a {hsFinM}hs y de {hsInicioT}hs a {hsFinT}hs</Text>
+                    <Mapa/>
+                </SafeAreaView>
+        );
+    }
     return (
         <SafeAreaView>
             <View>
@@ -159,13 +179,19 @@ export default function Cronometro() {
                 <Control
                     isRunning={isRunning}
                     handleButtonPress={isRunning ? updateRegistro : createRegistro}
-                    // prop={user}
+                />
+            </View>
+            <View style={styles.buttonContainer}>
+                <Button
+                    title="Ver zona y horario vigente"
+                    onPress={() => {setShowMap(true)}}
                 />
             </View>
         </SafeAreaView>
     );
 
 }
+
 
 const styles = StyleSheet.create({
 
@@ -181,4 +207,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
 
+    buttonContainer: {
+        marginBottom: 16,
+    },
+    menuText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 120,
+        textAlign:"center",
+        backgroundColor: 'yellow',
+        padding: 8,
+    },
 });
