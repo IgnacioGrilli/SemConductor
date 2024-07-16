@@ -5,6 +5,8 @@ import { displayTime } from './CronometroUtil';
 import moment from "moment";
 import Mapa from './Mapa';
 import { useFocusEffect } from '@react-navigation/native';
+import { Picker } from '@react-native-picker/picker';
+import { auth } from '../../configFirebase';
 
 export default function Cronometro() {
 
@@ -29,6 +31,20 @@ export default function Cronometro() {
     actualPatente.current = patente;
 
     const [patentes, setPatentes] = useState([]);
+    const [patenteSeleccionada, setPatenteSeleccionada] = useState('');
+
+    const [userId, setUserId] = useState('');
+    
+    useEffect(() => {
+        const obtenerUsuarioActual = async () => {
+            const usuarioActual = auth.currentUser;
+            if (usuarioActual) {
+                setUserId(usuarioActual.email);
+                console.log("Usuario actual: ",usuarioActual);
+            }
+        };
+        obtenerUsuarioActual();
+    }, []);
 
     moment().format();
 
@@ -38,8 +54,7 @@ export default function Cronometro() {
         }, [])
     );
 
-    useEffect(() => {
-    });
+    
 
 
     //ENVIA MAIL CON LOS RESULTADOS DEL ESTACIONAMIENTO
@@ -67,7 +82,7 @@ export default function Cronometro() {
             .then((response) => response.json());
     }
 
-    function getPatentesByUser() {
+  /*   function getPatentesByUser() {
         fetch("http://if012app.fi.mdn.unp.edu.ar:28001/patentes/all", {
             method: "GET",
             headers: {
@@ -85,7 +100,7 @@ export default function Cronometro() {
                     console.log(patentes);
                 }
             });
-    }
+    } */
 
     const createRegistro = async () => {
         //        var date = moment().format("YYYY-MM-DD");
@@ -106,7 +121,7 @@ export default function Cronometro() {
                 },
                 body: JSON.stringify({
                     patente: {
-                        numero: "AAA000",
+                        numero: patenteSeleccionada,
                     },
                     fecha: date,
                     conductor: {
@@ -144,7 +159,7 @@ export default function Cronometro() {
                 },
                 body: JSON.stringify({
                     patente: {
-                        numero: "AAA000",
+                        numero: patenteSeleccionada,
                     },
                     fecha: date,
                     conductor: {
@@ -180,6 +195,30 @@ export default function Cronometro() {
             setRunning((previousState) => !previousState);
         }, [isRunning]);
     */
+        useEffect(() => {
+            const obtenerPatentes = async () => {
+                try {
+                    const response = await fetch(`http://if012app.fi.mdn.unp.edu.ar:28001/conductorPatente/patUsuario/${userId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        setPatentes(data);
+                        if (data.length > 0) {
+                            setPatenteSeleccionada(data[0].numero); // Seleccionar la primera patente por defecto
+                            console.log("Patentes: ", data);
+                        }
+                    } else {
+                        console.error('Error al obtener las patentes:', response.status);
+                    }
+                } catch (error) {
+                    console.error('Error de red:', error);
+                }
+            };
+            if (userId) {
+                obtenerPatentes();
+            }
+        }, [userId]);
+
+
     function getHorario() {
         fetch("http://if012app.fi.mdn.unp.edu.ar:28001/ValorMinuto/horario", {
             method: "GET",
@@ -207,6 +246,7 @@ export default function Cronometro() {
     }
     return (
         <SafeAreaView>
+            
             <View>
                 <Text
                     style={styles.timer}
@@ -215,14 +255,29 @@ export default function Cronometro() {
                 </Text>
             </View>
 
+        
             <View
                 style={styles.button}
             >
+                
                 <Control
                     isRunning={isRunning}
                     handleButtonPress={isRunning ? updateRegistro : createRegistro}
                     // prop={user}
                 />
+               
+            </View> 
+
+            <View style={styles.pickerContainer}>
+                <Picker
+                    selectedValue={patenteSeleccionada}
+                    style={styles.picker}
+                    onValueChange={(itemValue) => setPatenteSeleccionada(itemValue)}
+                >
+                    {patentes.map((patente) => (
+                        <Picker.Item key={patente.numero} label={patente.numero} value={patente.numero} />
+                    ))}
+                </Picker>
             </View>
             <View style={styles.buttonContainer}>
                 <Button
@@ -230,6 +285,7 @@ export default function Cronometro() {
                     onPress={() => { setShowMap(true) }}
                 />
             </View>
+            
         </SafeAreaView>
     );
 
@@ -247,7 +303,7 @@ const styles = StyleSheet.create({
 
     button: {
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
 
     buttonContainer: {
@@ -260,10 +316,21 @@ const styles = StyleSheet.create({
         textAlign: "center",
         backgroundColor: 'yellow',
         padding: 8,
-    },/*
-    webViewContainer: {
-        flex: 1,
-        marginTop: 40
     },
- */
+
+    pickerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 70,
+        width: 150,
+        marginBottom: 5,
+
+    },
+    pickerLabel: {
+        marginRight: 10,
+    },
+    picker: {
+        height: 800,
+        flex: 1,
+    },
 });

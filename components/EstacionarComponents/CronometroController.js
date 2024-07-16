@@ -9,9 +9,7 @@ function Control({ isRunning, handleButtonPress }) {
     const [saldo, setSaldo] = useState();
     const [disabled, setDisabled] = useState(false);
     const [userId, setUserId] = useState('');
-    const [patentes, setPatentes] = useState([]);
-    const [patenteSeleccionada, setPatenteSeleccionada] = useState('');
-
+    
     useEffect(() => {
         const obtenerUsuarioActual = async () => {
             const usuarioActual = auth.currentUser;
@@ -23,28 +21,7 @@ function Control({ isRunning, handleButtonPress }) {
         obtenerUsuarioActual();
     }, []);
 
-    useEffect(() => {
-        const obtenerPatentes = async () => {
-            try {
-                const response = await fetch(`http://if012app.fi.mdn.unp.edu.ar:28001/conductorPatente/patUsuario/${userId}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setPatentes(data);
-                    if (data.length > 0) {
-                        setPatenteSeleccionada(data[0].numero); // Seleccionar la primera patente por defecto
-                        console.log("Patentes: ", data);
-                    }
-                } else {
-                    console.error('Error al obtener las patentes:', response.status);
-                }
-            } catch (error) {
-                console.error('Error de red:', error);
-            }
-        };
-        if (userId) {
-            obtenerPatentes();
-        }
-    }, [userId]);
+    
 
     useEffect(() => {
         const obtenerSaldo = async () => {
@@ -111,17 +88,7 @@ function Control({ isRunning, handleButtonPress }) {
 
     return(
         <View>
-            <View style={styles.pickerContainer}>
-                <Picker
-                    selectedValue={patenteSeleccionada}
-                    style={styles.picker}
-                    onValueChange={(itemValue) => setPatenteSeleccionada(itemValue)}
-                >
-                    {patentes.map((patente) => (
-                        <Picker.Item key={patente.numero} label={patente.numero} value={patente.numero} />
-                    ))}
-                </Picker>
-            </View>
+            
             <TouchableOpacity
                 activeOpacity={disabled ? 1 : 0.1}
                 style={disabled ? [
