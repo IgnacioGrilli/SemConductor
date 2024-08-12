@@ -34,6 +34,7 @@ export default function Cronometro() {
     const [patenteSeleccionada, setPatenteSeleccionada] = useState('');
 
     const [userId, setUserId] = useState('');
+    const [conductorId, setConductorId] = useState('');
     
     useEffect(() => {
         const obtenerUsuarioActual = async () => {
@@ -45,6 +46,25 @@ export default function Cronometro() {
         };
         obtenerUsuarioActual();
     }, []);
+
+    //Obtiene el ID del usuario conductor para poder armar el registroPago
+    useEffect(() => {
+   function getConductorId() {
+        fetch(`http://if012app.fi.mdn.unp.edu.ar:28001/conductor/mail/${userId}/`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setConductorId(data.id);
+                console.log("el id del conductor es: " + data.id);
+            });
+    };
+    getConductorId(); 
+    }, []);
+
 
     moment().format();
 
@@ -134,7 +154,7 @@ export default function Cronometro() {
                     },
                     fecha: date,
                     conductor: {
-                        id: 2,
+                        id: conductorId,
                     },
                     horaInicio: horaInicio,
                 }),

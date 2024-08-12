@@ -51,6 +51,7 @@ function Control({ isRunning, handleButtonPress }) {
             setchkSaldo(true);
         } else {
             setchkSaldo(false);
+            console.log("se dio cuenta saldo positivo");
         }
     }
 
@@ -82,7 +83,7 @@ function Control({ isRunning, handleButtonPress }) {
         checkSaldo();
         checkHorario(); 
         //deshabilita el boton si el saldo es negativo o esta fuera de horario
-        if (chkHorario || checkSaldo)
+        if (chkHorario || chkSaldo)
             setDisabled(true); 
         else
             setDisabled(false);
