@@ -7,6 +7,8 @@ import { auth } from '../../configFirebase';
 function Control({ isRunning, handleButtonPress }) {
 
     const [saldo, setSaldo] = useState();
+    const [chkSaldo, setchkSaldo] = useState(false);
+    const [chkHorario, setchkHorario] = useState(false)
     const [disabled, setDisabled] = useState(false);
     const [userId, setUserId] = useState('');
     
@@ -15,7 +17,7 @@ function Control({ isRunning, handleButtonPress }) {
             const usuarioActual = auth.currentUser;
             if (usuarioActual) {
                 setUserId(usuarioActual.email);
-                console.log("Usuario actual: ",usuarioActual);
+                console.log("Usuario actual controller: ",usuarioActual);
             }
         };
         obtenerUsuarioActual();
@@ -26,12 +28,14 @@ function Control({ isRunning, handleButtonPress }) {
     useEffect(() => {
         const obtenerSaldo = async () => {
             try {
-                const response = await fetch(`http://if012app.fi.mdn.unp.edu.ar:28001/conductor/saldo/${userId}`);
+                const response = await fetch(`http://if012app.fi.mdn.unp.edu.ar:28001/conductor/saldo/test@gmail.com`);
                 if (response.ok) {
                     const data = await response.json();
                     setSaldo(data);
+                    console.log("El saldo actual es: " + saldo);
                 } else {
-                    console.error('Error al obtener las transacciones:', response.status);
+                    console.error('Error al obtener el saldo:', response.status);
+                    console.log("El saldo actual es: " + saldo);
                 }
             } catch (error) {
                 console.error('Error de red:', error);
@@ -43,9 +47,10 @@ function Control({ isRunning, handleButtonPress }) {
 
     function checkSaldo() {
         if (saldo < 0) {
-            setDisabled(true);
+            console.log("se dio cuenta que el saldo es negativo");
+            setchkSaldo(true);
         } else {
-            setDisabled(false);
+            setchkSaldo(false);
         }
     }
 
@@ -64,10 +69,10 @@ function Control({ isRunning, handleButtonPress }) {
                 console.log("Son las ", horaInicio);
                 if ((horaInicio >= data.hsInicioM && horaInicio < data.hsFinM) || (horaInicio >= data.hsInicioT && horaInicio < data.hsFinT)) {
                     console.log("Esta en horario.");
-                    setDisabled(false);
+                    setchkHorario(false);
                 } else {
                     console.log("No esta en horario");
-                    setDisabled(true);
+                    setchkHorario(true);
                 }
 
             });
@@ -75,13 +80,18 @@ function Control({ isRunning, handleButtonPress }) {
 
     const f = () => {
         checkSaldo();
-        checkHorario();
+        checkHorario(); 
+        //deshabilita el boton si el saldo es negativo o esta fuera de horario
+        if (chkHorario || checkSaldo)
+            setDisabled(true); 
+        else
+            setDisabled(false);
     };
 
     useEffect(() => {
         f();
         const interval = setInterval(f, 60000); // Vuelve a chequear cada minuto
-
+        console.log("está haciendo el checkeo");
         return () => clearInterval(interval);
     }, []);
 

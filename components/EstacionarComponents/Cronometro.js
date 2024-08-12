@@ -48,6 +48,14 @@ export default function Cronometro() {
 
     moment().format();
 
+    const getCurrentDate = () => {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Añade un 0 inicial si es necesario
+        const day = String(date.getDate()).padStart(2, '0'); // Añade un 0 inicial si es necesario
+        return `${year}-${month}-${day}`;
+    };
+
     useFocusEffect(
         useCallback(() => {
             setShowMap(false); //sale del mapa
@@ -105,7 +113,8 @@ export default function Cronometro() {
     const createRegistro = async () => {
         //        var date = moment().format("YYYY-MM-DD");
         var horaInicio = moment().format("HH:mm");
-
+        setDate(getCurrentDate);
+        console.log("fecha actualizada:", date);
         console.log("Id antes de post:", id);
         setRunning((previousState) => !previousState)
         timer.current = setInterval(() => {
@@ -195,7 +204,8 @@ export default function Cronometro() {
             setRunning((previousState) => !previousState);
         }, [isRunning]);
     */
-        useEffect(() => {
+        useFocusEffect(
+            useCallback(() => {
             const obtenerPatentes = async () => {
                 try {
                     const response = await fetch(`http://if012app.fi.mdn.unp.edu.ar:28001/conductorPatente/patUsuario/${userId}`);
@@ -216,7 +226,8 @@ export default function Cronometro() {
             if (userId) {
                 obtenerPatentes();
             }
-        }, [userId]);
+        }, [userId])
+    );
 
 
     function getHorario() {
@@ -255,6 +266,17 @@ export default function Cronometro() {
                 </Text>
             </View>
 
+            <View style={styles.pickerContainer}>
+                <Picker
+                    selectedValue={patenteSeleccionada}
+                    style={styles.picker}
+                    onValueChange={(itemValue) => setPatenteSeleccionada(itemValue)}
+                >
+                    {patentes.map((patente) => (
+                        <Picker.Item key={patente.numero} label={patente.numero} value={patente.numero} />
+                    ))}
+                </Picker>
+            </View>
         
             <View
                 style={styles.button}
@@ -268,17 +290,7 @@ export default function Cronometro() {
                
             </View> 
 
-            <View style={styles.pickerContainer}>
-                <Picker
-                    selectedValue={patenteSeleccionada}
-                    style={styles.picker}
-                    onValueChange={(itemValue) => setPatenteSeleccionada(itemValue)}
-                >
-                    {patentes.map((patente) => (
-                        <Picker.Item key={patente.numero} label={patente.numero} value={patente.numero} />
-                    ))}
-                </Picker>
-            </View>
+            
             <View style={styles.buttonContainer}>
                 <Button
                     title="Ver zona y horario vigente"
@@ -320,17 +332,21 @@ const styles = StyleSheet.create({
 
     pickerContainer: {
         flexDirection: 'row',
+        justifyContent: 'center',  // Alinea los elementos hijos en el centro horizontalmente
         alignItems: 'center',
         height: 70,
-        width: 150,
+        width: 320,
         marginBottom: 5,
+        marginTop:30,
 
     },
     pickerLabel: {
         marginRight: 10,
     },
     picker: {
-        height: 800,
-        flex: 1,
+        width: 150,  // Asegura que el Picker no ocupe todo el ancho disponible
+        alignSelf: 'center',  // Centra el Picker dentro de su contenedor
+        //height: 780,
+        //flex: 1,
     },
 });
