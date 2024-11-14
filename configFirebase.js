@@ -11,10 +11,10 @@ import 'firebase/compat/storage'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "",
-    authDomain: "",
-    projectId: "sem-madryn",
-    storageBucket: "sem-madryn.appspot.com",
+    apiKey: "****",
+    authDomain: "****",
+    projectId: "****",
+    storageBucket: "****",
     messagingSenderId: "",
     appId: "",
     measurementId: ""
